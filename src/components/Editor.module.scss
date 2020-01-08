@@ -1,0 +1,26 @@
+.toolbar {
+    background-color: #121212;
+    color: #fafafa;
+    padding: 20px;
+}
+
+.allText {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.container {
+    padding: 10px 20px;
+    min-height: 100vh;
+}
+
+.preview {
+    background-color: #eee;
+    border-left: 1px solid #ccc;
+
+
+    h1, h2, h3, h4, h5, h6 {
+        border-bottom: 1px solid #ccc;
+        padding: 0.2em 0;
+    }
+}

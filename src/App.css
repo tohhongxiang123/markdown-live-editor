@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    box-sizing: border-box;
+    font-family: Lato, 'Helvetica Neue'
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.75rem;
+}
+
+h4 {
+    font-size: 1.5rem;
+}
+
+h5 {
+    font-size: 1.25rem;
+}
+
+h6 {
+    font-size: 1rem;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    line-height: 1.3;
+    margin-bottom: 1rem;
+}
+
+blockquote, dl, ol, p, pre, ul {
+    margin: 1.2em 1em;
+}
+
+ul, ol {
+    list-style-position: inside;
+    padding-left: 1em;
+}
+
+li {
+    margin-bottom: 0.4em;
+}
+
+table, td {  
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    border: 1px solid #ddd;
+    font-weight: bold;
+    text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+    margin-bottom: 0.7em;
+}
+
+th, td {
+    padding: 15px;
+}
+
+blockquote {
+    color: rgba(0,0,0,.5);
+    padding-left: 1.5em;
+    border-left: 5px solid rgba(0,0,0,.1);
+}
+
+a {
+    color: #0c93e4;
+    text-decoration: underline;
+}
+
+img {
+    max-width: 100%;
+}
