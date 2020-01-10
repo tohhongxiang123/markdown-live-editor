@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/codemirror.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/codemirror.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/mode/python/python.min.js"></script>
+</head>
+<body>
+    <textarea class="editor"></textarea>
+    <script>
+        window.myCodeMirror = CodeMirror.fromTextArea(document.querySelector('.editor'), {lineNumbers: true, mode: 'python'})
+    </script>
+</body>
+</html>

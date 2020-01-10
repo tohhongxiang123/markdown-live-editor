@@ -1,6 +1,15 @@
-.textInput {
-    padding: 20px;
+.root {
+    width: 100%;
+    word-wrap: break-word;
     &:focus {
         outline: none;
     }
+
+    &:hover {
+        cursor: text;
+    }
+}
+
+.highlight {
+    background-color: red
 }

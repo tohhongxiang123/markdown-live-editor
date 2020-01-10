@@ -1,0 +1,31 @@
+.root {
+    background-color: #001628;
+    padding: 10px;
+    border-radius: 5px;
+    color: #FAFAFA;
+}
+
+.code {
+    background-color: transparent !important;
+    color: #FAFAFA;
+    text-shadow: none !important;
+
+    * {
+        text-shadow: none !important;
+        font-family: inherit;
+    }
+
+    pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+
+    code {
+        white-space: pre-wrap !important;
+        word-wrap: break-word;
+    }
+}
+
+.footer {
+    text-align: right;
+}

@@ -1,39 +1,39 @@
-import React, {useEffect, useRef} from 'react'
+import React, {useState} from 'react'
 import styles from './RichTextInput.module.scss'
-import 'draft-js/dist/Draft.css'
+import {Controlled as CodeMirror} from 'react-codemirror2'
 
-const KEYCODES = {
-    TAB: 9,
-    ESC: 27,
-    ENTER: 13
-}
+import 'codemirror/theme/material.css';
+import 'codemirror/mode/markdown/markdown'
 
-export default function RichTextInput({updatePreview, innerHTML}) {
-    const editorRef = useRef(null)
+export default function RichTextInput({updatePreview}) {
+    const [editorState, setEditorState] = useState('')
+    const [editor, setEditor] = useState(null)
 
-    useEffect(() => {
-        function handleSpecialKeys(e) {
-            switch(e.keyCode) {
-                case KEYCODES.ESC:
-                    e.preventDefault()
-                    editorRef.current.blur()
-                    break;
-                case KEYCODES.TAB:
-                    e.preventDefault()
-                    document.execCommand('insertText', false, '        ')
-                    break
-                default:
-                    break
-            }
-        }
+    const options = {
+        mode: 'markdown',
+        theme: 'material',
+        lineNumbers: true,
+        lineWrapping: true,
+        autofocus: true,
+        highlightFormatting: true,
+        fencedCodeBlockHighlighting: true
+    }
 
-        editorRef.current.addEventListener('keydown', handleSpecialKeys)
-        return () => editorRef.current.removeEventListener('keydown', handleSpecialKeys)
-    }, [])
+    const handleChange = (editor, data, value) => {
+        setEditorState(value)
+        updatePreview(value)
+    }
 
     return (
-        <div className={styles.textInput} contentEditable onInput={updatePreview} ref={editorRef}>
+        <div className={styles.root} onClick={() => editor.focus()}>
+            <CodeMirror 
+            editorDidMount={editor => setEditor(editor)}
+            className={styles.editor}
+            value={editorState}
+            options={options}
+            onBeforeChange={(editor, data, value) => setEditorState(value)}
+            onChange={handleChange}
+            />
         </div>
     )
 }
-

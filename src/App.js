@@ -1,11 +1,13 @@
 import React from 'react'
-import Editor from './components/Editor'
-import './App.css'
+import Layout from './components/Layout'
+import './App.scss'
+import 'codemirror/lib/codemirror.css';
+import './cmOverride.scss'
 
 export default function App() {
     return (
         <div>
-            <Editor />
+            <Layout />
         </div>
     )
 }
