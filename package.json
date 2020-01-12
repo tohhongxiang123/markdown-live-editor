@@ -9,6 +9,7 @@
     "codemirror": "^5.50.2",
     "jspdf": "^1.5.3",
     "katex": "^0.11.1",
+    "mermaid": "^8.4.4",
     "node-sass": "^4.13.0",
     "react": "^16.12.0",
     "react-codemirror2": "^6.0.0",

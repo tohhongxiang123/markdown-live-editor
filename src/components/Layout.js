@@ -9,7 +9,6 @@ export default function Layout() {
     const [text, setText] = useState('');
 
     const updatePreview = text => {
-        console.log(text)
         setText(text)
     }
 
@@ -26,11 +25,11 @@ export default function Layout() {
     const rootContainerStyles = () => {
         let gtc;
         if (isEditorShown && isPreviewShown) {
-            gtc = '1fr auto 1fr'
+            gtc = '1fr 1fr auto'
         } else if (isEditorShown && !isPreviewShown) {
             gtc = '1fr auto'
         } else if (!isEditorShown && isPreviewShown) {
-            gtc = 'auto 1fr'
+            gtc = '1fr auto'
         } else {
             gtc = 'auto'
         }
@@ -45,26 +44,22 @@ export default function Layout() {
     return (
         <ScrollSync className={styles.root}>
             <div style={rootContainerStyles()}>
-                {isEditorShown ? (
-                    <ScrollSyncPane>
-                        <div className={`${styles.scrollContainer} ${styles.editorContainer}`}>
-                            <RichTextInput updatePreview={updatePreview} />
-                        </div>
-                    </ScrollSyncPane>
-                ) : null}
+                <ScrollSyncPane>
+                    <div className={`${styles.scrollContainer} ${styles.editorContainer}`} style={{display: isEditorShown ? 'block' : 'none'}}>
+                        <RichTextInput updatePreview={updatePreview} />
+                    </div>
+                </ScrollSyncPane>
+                <ScrollSyncPane>
+                    <div className={`${styles.scrollContainer} ${styles.previewerContainer}`} style={{display: isPreviewShown ? 'block' : 'none'}}>
+                        <Previewer source={text} />
+                    </div>
+                </ScrollSyncPane>
                 <Gutter 
                     toggleEditor={toggleEditor} 
                     togglePreview={togglePreview} 
                     isEditorShown={isEditorShown} 
                     isPreviewShown={isPreviewShown}
                 />
-                {isPreviewShown ? (
-                    <ScrollSyncPane>
-                        <div className={`${styles.scrollContainer} ${styles.previewerContainer}`}>
-                            <Previewer source={text} />
-                        </div>
-                    </ScrollSyncPane>
-                ) : null}
             </div>
         </ScrollSync>
     )

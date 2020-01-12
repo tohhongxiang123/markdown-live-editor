@@ -14,6 +14,8 @@ export default function RichTextInput({updatePreview}) {
         theme: 'material',
         lineNumbers: true,
         lineWrapping: true,
+        indentWithTabs: true,
+        smartIndent: true,
         autofocus: true,
         highlightFormatting: true,
         fencedCodeBlockHighlighting: true
