@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/markdown-live-editor/static/css/main.e364a307.chunk.css",
+    "main.js": "/markdown-live-editor/static/js/main.42279862.chunk.js",
+    "main.js.map": "/markdown-live-editor/static/js/main.42279862.chunk.js.map",
+    "runtime-main.js": "/markdown-live-editor/static/js/runtime-main.eacc9247.js",
+    "runtime-main.js.map": "/markdown-live-editor/static/js/runtime-main.eacc9247.js.map",
+    "static/css/2.14a4bf08.chunk.css": "/markdown-live-editor/static/css/2.14a4bf08.chunk.css",
+    "static/js/2.9bf4e8ff.chunk.js": "/markdown-live-editor/static/js/2.9bf4e8ff.chunk.js",
+    "static/js/2.9bf4e8ff.chunk.js.map": "/markdown-live-editor/static/js/2.9bf4e8ff.chunk.js.map",
+    "index.html": "/markdown-live-editor/index.html",
+    "precache-manifest.066927bc3a701f343c5239008e3de486.js": "/markdown-live-editor/precache-manifest.066927bc3a701f343c5239008e3de486.js",
+    "service-worker.js": "/markdown-live-editor/service-worker.js",
+    "static/css/2.14a4bf08.chunk.css.map": "/markdown-live-editor/static/css/2.14a4bf08.chunk.css.map",
+    "static/css/main.e364a307.chunk.css.map": "/markdown-live-editor/static/css/main.e364a307.chunk.css.map",
+    "static/js/2.9bf4e8ff.chunk.js.LICENSE": "/markdown-live-editor/static/js/2.9bf4e8ff.chunk.js.LICENSE"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.eacc9247.js",
+    "static/css/2.14a4bf08.chunk.css",
+    "static/js/2.9bf4e8ff.chunk.js",
+    "static/css/main.e364a307.chunk.css",
+    "static/js/main.42279862.chunk.js"
+  ]
+}
