@@ -1,18 +1,24 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import mermaid from 'mermaid'
-
-mermaid.initialize({startOnLoad: true})
+import styles from './MermaidBlock.module.scss'
 
 export default function MermaidBlock({chart}) {
-    try {
-        mermaid.contentLoaded()
-        return (
-            <div className="mermaid">
-                {chart}
+    const [diagram, setDiagram] = useState(chart)
+    useEffect(() => {
+        try {
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: "forest"
+            })
+            mermaid.contentLoaded()
+        } catch(e) {
+            setDiagram(e.message)
+        }
+    }, [chart])
+
+    return (
+            <div className={`${styles.mermaidBlock} mermaid`}>
+                {diagram}
             </div>
-        )
-    } catch(e) {
-        console.log(e);
-        return <div>Error</div>
-    }
+    )
 }

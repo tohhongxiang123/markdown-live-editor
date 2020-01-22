@@ -3,8 +3,6 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { solarizedlight, okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import styles from './CodeBlock.module.scss'
 
-
-
 export default function CodeBlock({language, value}) {
     const theme = 'dark'
 
