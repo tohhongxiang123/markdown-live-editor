@@ -5,12 +5,6 @@ import RemarkMathPlugin from 'remark-math';
 import CodeBlock from './CodeBlock'
 import styles from './Previewer.module.scss'
 import MermaidBlock from './MermaidBlock'
-import mermaid from 'mermaid'
-
-mermaid.initialize({
-    startOnLoad: true
-})
-
 
 const MarkdownRender = (props) => {
     const newProps = {
@@ -20,6 +14,7 @@ const MarkdownRender = (props) => {
         ],
         renderers: {
             ...props.renderers,
+            link: ({href, children}) => <a href={href} target="_blank" rel="noopener noreferrer">{children}</a>,
             math: ({value}) => <MathJax.Node>{value}</MathJax.Node>,
             inlineMath: ({value}) => <MathJax.Node inline>{value}</MathJax.Node>,
             code: ({language, value}) => {

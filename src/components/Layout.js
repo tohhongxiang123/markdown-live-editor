@@ -10,6 +10,7 @@ export default function Layout() {
 
     const updatePreview = text => {
         setText(text)
+        console.log('updarte')
     }
 
     const [isEditorShown, setIsEditorShown] = useState(true)
@@ -20,6 +21,18 @@ export default function Layout() {
     const [isPreviewShown, setIsPreviewShown] = useState(true)
     const togglePreview = () => {
         setIsPreviewShown(p => !p);
+    }
+
+    const toggleBoth = () => {
+        if (isEditorShown === isPreviewShown) {
+            setIsEditorShown(true)
+            setIsPreviewShown(false)
+            return
+        }
+
+        setIsEditorShown(p => !p);
+        setIsPreviewShown(p => !p);
+        return
     }
 
     const rootContainerStyles = () => {
@@ -46,12 +59,12 @@ export default function Layout() {
             <div style={rootContainerStyles()}>
                 <ScrollSyncPane>
                     <div className={`${styles.scrollContainer} ${styles.editorContainer}`} style={{display: isEditorShown ? 'block' : 'none'}}>
-                        <RichTextInput updatePreview={updatePreview} />
+                        <RichTextInput updatePreview={updatePreview} toggleState={`${isPreviewShown} ${isEditorShown}`} />
                     </div>
                 </ScrollSyncPane>
                 <ScrollSyncPane>
                     <div className={`${styles.scrollContainer} ${styles.previewerContainer}`} style={{display: isPreviewShown ? 'block' : 'none'}}>
-                        <Previewer source={text} />
+                        {isPreviewShown ? <Previewer source={text} /> : null}
                     </div>
                 </ScrollSyncPane>
                 <Gutter 
@@ -59,6 +72,7 @@ export default function Layout() {
                     togglePreview={togglePreview} 
                     isEditorShown={isEditorShown} 
                     isPreviewShown={isPreviewShown}
+                    toggleBoth={toggleBoth}
                 />
             </div>
         </ScrollSync>

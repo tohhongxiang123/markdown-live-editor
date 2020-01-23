@@ -1,13 +1,21 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import styles from './RichTextInput.module.scss'
 import {Controlled as CodeMirror} from 'react-codemirror2'
 
 import 'codemirror/theme/material.css';
 import 'codemirror/mode/markdown/markdown'
 
-export default function RichTextInput({updatePreview}) {
+// toggle state is a combination of the isEditorShown and isPreviewShown
+// if either one changes, toggleState will change
+/**
+ * 
+ * @param {*} props 
+ * @param {function} props.updatePreview
+ * @param {string} props.toggleState - A combination of isEditorShown state and isPreviewShown state 
+ */
+export default function RichTextInput({updatePreview, toggleState}) {
     const [editorState, setEditorState] = useState('')
-    const [editor, setEditor] = useState(null)
+    const [editor, setEditor] = useState(null) // editor instance
 
     const options = {
         mode: 'markdown',
@@ -23,8 +31,23 @@ export default function RichTextInput({updatePreview}) {
 
     const handleChange = (editor, data, value) => {
         setEditorState(value)
-        updatePreview(value)
     }
+
+    useEffect(() => {
+        const timeoutHandler = setTimeout(() => {
+            updatePreview(editorState)
+        }, editorState.length / 100)
+        return () => {
+            clearTimeout(timeoutHandler)
+        };
+    }, [editorState, updatePreview])
+
+    useEffect(() => {
+        if (editor) {
+            editor.refresh()
+            console.log('refresh')
+        }
+    }, [toggleState, editor])
 
     return (
         <div className={styles.root} onClick={() => editor.focus()}>
