@@ -13,8 +13,8 @@ import 'codemirror/mode/markdown/markdown'
  * @param {function} props.updatePreview
  * @param {string} props.toggleState - A combination of isEditorShown state and isPreviewShown state 
  */
-export default function RichTextInput({updatePreview, toggleState}) {
-    const [editorState, setEditorState] = useState('')
+export default function RichTextInput({updatePreview, toggleState, initialText}) {
+    const [editorState, setEditorState] = useState(initialText ? initialText : '')
     const [editor, setEditor] = useState(null) // editor instance
 
     const options = {
@@ -45,7 +45,6 @@ export default function RichTextInput({updatePreview, toggleState}) {
     useEffect(() => {
         if (editor) {
             editor.refresh()
-            console.log('refresh')
         }
     }, [toggleState, editor])
 

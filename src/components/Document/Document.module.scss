@@ -1,0 +1,18 @@
+.main {
+    padding: 20px;
+}
+
+.documentHeaderContainer {
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    padding: 20px 0;
+}
+
+.documentHeader {
+    display: flex;
+    justify-content: space-between;
+}
+
+.documentDescription {
+    color: rgba(0,0,0,0.6);
+}

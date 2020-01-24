@@ -1,16 +1,21 @@
 import React, {useState} from 'react'
-import styles from './Layout.module.scss'
-import Previewer from './Previewer'
+import styles from './Editor.module.scss'
+import Previewer from '../Previewer'
 import RichTextInput from './RichTextInput'
 import Gutter from './Gutter'
 import { ScrollSync , ScrollSyncPane } from 'react-scroll-sync'
 
-export default function Layout() {
-    const [text, setText] = useState('');
+/**
+ * 
+ * @param {Object} props 
+ * @param {string} initialText - Initial text the editor begins with
+ * @param {function} save - Function to call when save is clicked 
+ */
+export default function Editor({initialText, save}) {
+    const [text, setText] = useState(initialText);
 
     const updatePreview = text => {
         setText(text)
-        console.log('updarte')
     }
 
     const [isEditorShown, setIsEditorShown] = useState(true)
@@ -50,16 +55,18 @@ export default function Layout() {
         return {
             display: 'grid',
             gridTemplateColumns: gtc,
-            justifyContent: 'stretch'
+            justifyContent: 'stretch',
+            height: '100%'
         }
     }
 
     return (
+        <>
         <ScrollSync className={styles.root}>
             <div style={rootContainerStyles()}>
                 <ScrollSyncPane>
                     <div className={`${styles.scrollContainer} ${styles.editorContainer}`} style={{display: isEditorShown ? 'block' : 'none'}}>
-                        <RichTextInput updatePreview={updatePreview} toggleState={`${isPreviewShown} ${isEditorShown}`} />
+                        <RichTextInput updatePreview={updatePreview} toggleState={`${isPreviewShown} ${isEditorShown}`} initialText={initialText} />
                     </div>
                 </ScrollSyncPane>
                 <ScrollSyncPane>
@@ -73,8 +80,10 @@ export default function Layout() {
                     isEditorShown={isEditorShown} 
                     isPreviewShown={isPreviewShown}
                     toggleBoth={toggleBoth}
+                    save={() => save(text)}
                 />
             </div>
         </ScrollSync>
+        </>
     )
 }

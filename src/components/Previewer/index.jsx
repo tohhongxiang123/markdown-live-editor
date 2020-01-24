@@ -6,7 +6,7 @@ import CodeBlock from './CodeBlock'
 import styles from './Previewer.module.scss'
 import MermaidBlock from './MermaidBlock'
 
-const MarkdownRender = (props) => {
+export default (props) => {
     const newProps = {
         ...props,
         plugins: [
@@ -34,5 +34,3 @@ const MarkdownRender = (props) => {
         </MathJax.Context>
     );
 };
-
-export default MarkdownRender
