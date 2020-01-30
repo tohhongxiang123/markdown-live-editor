@@ -1,32 +1,33 @@
 import React, {useContext, useState, useEffect} from 'react'
 import { userContext } from '../context/UserContext'
 import axios from 'axios'
+import ConfirmationDialog from '../components/Dialog/ConfirmationDialog'
 import { useHistory } from 'react-router-dom'
 
 export default function Profile() {
-    const {user, setToken} = useContext(userContext)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [newPassword, setNewPassword] = useState('')
     const [newPasswordAgain, setNewPasswordAgain] = useState('')
-    const [error, setError] = useState(null)
-    const [isLoading, setIsLoading] = useState(false)
-    const history = useHistory()
-
+    
+    const {user, setToken} = useContext(userContext)
     useEffect(() => {
         if (user) setUsername(user.username)
     }, [user])
 
+    const [error, setError] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
+    const history = useHistory()
+
     const handleSubmit = async e => {
         e.preventDefault()
         setError(null)
-        if (newPassword !== newPasswordAgain) return setError('Passwords do not match')
 
+        if (newPassword !== newPasswordAgain) return setError('Passwords do not match')
         if (newPassword.length < 6 && newPassword.length > 0) return setError('Password must be at least 6 characters long')
 
         const originalInfo = {password}
         const updatedInfo = {username, password : newPassword.length > 0 ? newPassword : password}
-
         setIsLoading(true)
 
         try {
@@ -44,9 +45,18 @@ export default function Profile() {
         }
     }
 
+    const [isDialogOpen, setIsDialogOpen] = useState(false)
+    const deleteUser = async () => {
+        console.log('delete')
+    }
+
+    const [isEditing, setIsEditing] = useState(false)
+
     return (
         <div>
-            <form className="form" onSubmit={handleSubmit}>
+            <ConfirmationDialog open={isDialogOpen} handleClose={() => setIsDialogOpen(false)} action={deleteUser} title="Delete user?"/>
+            {isEditing ? (
+            <form className="card" onSubmit={handleSubmit}>
                 <h2>Edit User</h2>
                 <label htmlFor="username">Username</label>
                 <input id="username" value={username} onChange={e => setUsername(e.target.value)} />
@@ -57,8 +67,18 @@ export default function Profile() {
                 <label htmlFor="password">Original Password</label>
                 <input type="password" id="password" value={password} onChange={e => setPassword(e.target.value)} />
                 {error ? <p><i>{error}</i></p> : null}
-                <button className="button-primary" disabled={isLoading}>{isLoading ? "Loading..." : 'Submit'}</button>
-            </form>
+                <div style={{textAlign: 'right'}}>
+                    <button className="button-primary" disabled={isLoading} type="submit">{isLoading ? "Loading..." : 'Submit'}</button>
+                    <button className="button" disabled={isLoading} onClick={() => setIsEditing(false)} type="button">Cancel</button>
+                </div>
+            </form> ) : (
+                <div className="card">
+                    <p><strong>Profile</strong></p>
+                    <p>Username: <strong>{username}</strong></p>
+                    <button className="button-primary" onClick={() => setIsEditing(true)}>Edit Profile</button>
+                    <button className="button" onClick={() => setIsDialogOpen(true)}>Delete</button>
+                </div>
+            )}
         </div>
     )
 }

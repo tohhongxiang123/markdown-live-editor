@@ -3,7 +3,7 @@ import useQuery from '../../utils/useQuery'
 import Previewer from '../Previewer'
 import styles from './Document.module.scss'
 import { Link } from 'react-router-dom'
-import Dialog from '../Dialog'
+import ConfirmationDialog from '../Dialog/ConfirmationDialog'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 import moment from 'moment'
@@ -39,13 +39,7 @@ export default function Document({_id, pageid}) {
 
     return (
         <div className={styles.main}>
-            <Dialog open={isDialogOpen} handleClose={() => setIsDialogOpen(false)}>
-                <h2>Are you sure?</h2>
-                <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                    <button onClick={deletePost}>Yes</button>
-                    <button className="button-primary" onClick={() => setIsDialogOpen(false)}>No</button>
-                </div>
-            </Dialog>
+            <ConfirmationDialog open={isDialogOpen} handleClose={() => setIsDialogOpen(false)} action={deletePost} title={"Delete post?"} />
 
             {error ? <p>{error}</p> : null}
             {isLoading ? <p>Loading...</p> : document ? (

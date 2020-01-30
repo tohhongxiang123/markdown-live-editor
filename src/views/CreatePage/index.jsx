@@ -26,7 +26,7 @@ export default function CreatePage() {
 
     return (
         <div>
-            <form className="form" onSubmit={handleSubmit}>
+            <form className="card" onSubmit={handleSubmit}>
                 <h2>Create a new page</h2>
                 <label htmlFor="title">Title</label>
                 <input id="title" value={title} onChange={e => setTitle(e.target.value)} />

@@ -34,7 +34,7 @@ export default function Login(props) {
 
     return (
         <div>
-            <form onSubmit={handleSubmit} className="form">
+            <form onSubmit={handleSubmit} className="card">
                 <h2>Login</h2>
                 <label>Username</label>
                 <input type="text" value={username} onChange={e => setUsername(e.target.value)}/>

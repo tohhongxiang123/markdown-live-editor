@@ -40,13 +40,6 @@ h6 {
     font-size: 1rem;
 }
 
-p {
-    margin-top: 0;
-    margin-bottom: 1rem;
-    margin-left: 0;
-    margin-right: 0;
-}
-
 h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
 }
@@ -58,7 +51,7 @@ h1, h2, h3, h4, h5, h6, p {
     letter-spacing: 0.03rem;
 }
 
-blockquote, dl, ol, p, pre, ul {
+blockquote, dl, ol, pre, ul {
     margin: 1.2em 1em;
 }
 
@@ -203,9 +196,10 @@ input:disabled {
     }
 }
 
-.form {
+.card {
     padding: 20px;
     max-width: 400px;
+    background-color: #fafafa;
     margin: 30px auto;
     border: 1px solid #eee;
     border-radius: 5px;

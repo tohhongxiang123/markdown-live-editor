@@ -4,7 +4,7 @@ import styles from './DocumentList.module.scss'
 import { Link, useHistory } from 'react-router-dom'
 import deleteIcon from './delete.svg'
 import addIcon from './add.svg'
-import Dialog from '../Dialog'
+import ConfirmationDialog from '../Dialog/ConfirmationDialog'
 import axios from 'axios'
 
 export default function DocumentList({page, documents, activeId}) {
@@ -29,14 +29,7 @@ export default function DocumentList({page, documents, activeId}) {
 
     return (
         <>
-            <Dialog open={isDialogOpen} handleClose={() => setIsDialogOpen(false)}>
-                <h2>Are you sure?</h2>
-                <p style={{margin: '10px 0 20px'}}>This action is <strong>irreversible</strong></p>
-                <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                    <button onClick={deletePage}>Yes</button>
-                    <button className="button-primary" onClick={() => setIsDialogOpen(false)}>No</button>
-                </div>
-            </Dialog>
+            <ConfirmationDialog open={isDialogOpen} handleClose={() => setIsDialogOpen(false)} action={deletePage} title="Delete Page?" />
             <nav className={styles.documentListContainer}>
                 <header className={styles.navHeader}>
                     <p><strong>{page.title}</strong></p>

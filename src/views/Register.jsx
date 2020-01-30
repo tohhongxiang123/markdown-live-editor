@@ -6,6 +6,7 @@ export default function Register() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [passwordAgain, setPasswordAgain] = useState('')
+
     const [error, setError] = useState(true)
     const [isLoading, setIsLoading] = useState(false)
     const history = useHistory()
@@ -16,9 +17,10 @@ export default function Register() {
 
         if (password !== passwordAgain) return setError('Passwords do not match')
         if (password.length < 6 && password.length > 0) return setError('Password must be at least 6 characters long')
-        const userInfo = {username, password}
 
+        const userInfo = {username, password}
         setIsLoading(true)
+        
         try {
             await axios.post('/api/users/register', userInfo)
             history.push('/login')
@@ -35,7 +37,7 @@ export default function Register() {
 
     return (
         <div>
-            <form className="form" onSubmit={handleSubmit}>
+            <form className="card" onSubmit={handleSubmit}>
                 <h2>Register</h2>
                 <label htmlFor="username">Username</label>
                 <input type="text" value={username} onChange={e => setUsername(e.target.value)} id="username" />

@@ -8,5 +8,4 @@ export default function Dialog({open, children, handleClose}) {
                 {children} 
             </div>
         </div> : null
-    
 }
