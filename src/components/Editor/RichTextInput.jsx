@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import styles from './RichTextInput.module.scss'
 import {Controlled as CodeMirror} from 'react-codemirror2'
 
-import 'codemirror/theme/material.css';
+import 'codemirror/theme/duotone-light.css';
 import 'codemirror/mode/markdown/markdown'
 
 // toggle state is a combination of the isEditorShown and isPreviewShown
@@ -13,8 +13,7 @@ import 'codemirror/mode/markdown/markdown'
  * @param {function} props.updatePreview
  * @param {string} props.toggleState - A combination of isEditorShown state and isPreviewShown state 
  */
-export default function RichTextInput({updatePreview, toggleState, initialText}) {
-    const [editorState, setEditorState] = useState(initialText ? initialText : '')
+export default function RichTextInput({updateText, toggleState, text}) {
     const [editor, setEditor] = useState(null) // editor instance
 
     const options = {
@@ -29,19 +28,6 @@ export default function RichTextInput({updatePreview, toggleState, initialText})
         fencedCodeBlockHighlighting: true
     }
 
-    const handleChange = (editor, data, value) => {
-        setEditorState(value)
-    }
-
-    useEffect(() => {
-        const timeoutHandler = setTimeout(() => {
-            updatePreview(editorState)
-        }, editorState.length / 100)
-        return () => {
-            clearTimeout(timeoutHandler)
-        };
-    }, [editorState, updatePreview])
-
     useEffect(() => {
         if (editor) {
             editor.refresh()
@@ -53,10 +39,10 @@ export default function RichTextInput({updatePreview, toggleState, initialText})
             <CodeMirror 
             editorDidMount={editor => setEditor(editor)}
             className={styles.editor}
-            value={editorState}
+            value={text}
             options={options}
-            onBeforeChange={(editor, data, value) => setEditorState(value)}
-            onChange={handleChange}
+            onBeforeChange={(editor, data, value) => updateText(value)}
+            onChange={(editor, data, value) => updateText(value)}
             />
         </div>
     )

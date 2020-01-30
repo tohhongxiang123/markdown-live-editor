@@ -1,46 +1,53 @@
-import React from 'react'
-import useQuery from '../../utils/useQuery'
+import React, { useState } from 'react'
 import DocumentCard from './DocumentCard'
 import styles from './DocumentList.module.scss'
-import { useRouteMatch } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+import deleteIcon from './delete.svg'
+import addIcon from './add.svg'
+import Dialog from '../Dialog'
+import axios from 'axios'
 
-const getDocumentsQuery = `
-query {
-    parentDocuments {
-        _id
-        title
-        description
-        children {
-            _id
-            title
-            description
-            author {
-                _id
-                username
+export default function DocumentList({page, documents, activeId}) {
+    const [isDialogOpen, setIsDialogOpen] = useState(false)
+    const [error, setError] = useState(null)
+    const history = useHistory()
+
+    const deletePage = async () => {
+        setError(null)
+        setIsDialogOpen(false)
+        try {
+            await axios.delete(`/api/pages/_id/${page._id}`)
+            history.push(`/pages`)
+        } catch(e) {
+            if (e.response) {
+                setError(e.response.data.error)
+            } else {
+                setError(e.message)
             }
         }
-        author {
-            _id
-            username
-        }
     }
-}
-`
 
-export default function DocumentList() {
-    const { isLoading, error, data } = useQuery(getDocumentsQuery)
-    const match = useRouteMatch()
-    const { _id: currentId } = match.params
-
-    if (isLoading) return <p>Loading...</p>
-
-    const documents = data ? data.parentDocuments : [];
     return (
-        <div className={styles.documentListContainer}>
-            {error ? <p>{error}</p> : null}
-            <ul className={styles.documentList}>
-                {documents.map(doc => <DocumentCard {...doc} key={doc._id} activeId={currentId} />)}
-            </ul>
-        </div>
+        <>
+            <Dialog open={isDialogOpen} handleClose={() => setIsDialogOpen(false)}>
+                <h2>Are you sure?</h2>
+                <p style={{margin: '10px 0 20px'}}>This action is <strong>irreversible</strong></p>
+                <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                    <button onClick={deletePage}>Yes</button>
+                    <button className="button-primary" onClick={() => setIsDialogOpen(false)}>No</button>
+                </div>
+            </Dialog>
+            <nav className={styles.documentListContainer}>
+                <header className={styles.navHeader}>
+                    <p><strong>{page.title}</strong></p>
+                    <Link to={`/pages/${page._id}/create`}><button className={`button ${styles.actionButtons}`}><img src={addIcon} alt="Add"/></button></Link>
+                    <button className={`button ${styles.actionButtons}`} onClick={() => setIsDialogOpen(true)}><img src={deleteIcon} alt="Delete" /></button>
+                </header>
+                {error ? <p>{error}</p> : null}
+                <ul className={styles.documentList}>
+                    {documents.map(doc => <DocumentCard {...doc} key={doc._id} activeId={activeId} />)}
+                </ul>
+            </nav>
+        </>
     )
 }

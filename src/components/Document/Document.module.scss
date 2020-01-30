@@ -1,11 +1,21 @@
 .main {
     padding: 20px;
+    width: 100%;
+    overflow: hidden;
 }
 
 .documentHeaderContainer {
     margin-bottom: 30px;
     border-bottom: 1px solid rgba(0,0,0,0.2);
     padding: 20px 0;
+    display: grid;
+    grid-template-columns: auto min-content;
+    align-items: baseline;
+
+    p {
+        margin: 0;
+        margin-bottom: 0.4em;
+    }
 }
 
 .documentHeader {
@@ -13,6 +23,16 @@
     justify-content: space-between;
 }
 
+.documentTitle {
+    word-break: break-word;
+}
+
 .documentDescription {
     color: rgba(0,0,0,0.6);
+}
+
+.documentActions {
+    list-style-type: none;
+    display: flex;
+    justify-content: flex-end;
 }

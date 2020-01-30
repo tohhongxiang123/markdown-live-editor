@@ -7,4 +7,62 @@
 .scrollContainer {
     height: 100%;
     overflow: auto;
+    border-left: 1px solid #ccc;
+    position: relative;
+    display: grid;
+    grid-template-rows: min-content 1fr;
+}
+
+.editorContainer, .scrollContainer {
+    position: relative;
+}
+
+.editorSectionHeader {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid #ccc;
+    background-color: #fafafa;
+
+    * {
+        margin: 0;
+        padding: 1em 0.7em;
+    }
+}
+
+.editHeader {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: auto fit-content;
+    align-items: baseline;
+    grid-gap: 20px;
+
+    * {
+        margin: 0;
+    }
+}
+
+.editDescription {
+    color: #868686;
+}
+
+.titleInput {
+    font-weight: bold;
+    font-size: 1.6em;
+}
+
+.descriptionInput {
+    font-style: italic;
+}
+
+.helperText {
+    text-align: right;
+    font-style: italic;
+    color: #494949;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+}
+
+.hidden {
+    display: none;
 }

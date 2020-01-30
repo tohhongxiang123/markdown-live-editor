@@ -2,6 +2,32 @@
     width: 300px;
     border-right: 1px solid #ccc;
     min-height: 100vh;
+    padding: 10px 0;
+    background-color: #2C7EDE;
+
+    * {
+        color: #fafafa;
+        text-decoration: none;
+        word-break: break-word;
+    }
+}
+
+.navHeader {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr;
+    align-items: center;
+
+    p {
+        font-size: 1.1rem;
+    }
+}
+
+.actionButtons {
+    padding: 10px 15px;
+    color: white;
 }
 
 .documentList {

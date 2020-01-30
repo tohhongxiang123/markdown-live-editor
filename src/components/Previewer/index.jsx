@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo} from "react";
 import ReactMarkdown from "react-markdown";
 import MathJax from "react-mathjax2";
 import RemarkMathPlugin from 'remark-math';
@@ -6,7 +6,7 @@ import CodeBlock from './CodeBlock'
 import styles from './Previewer.module.scss'
 import MermaidBlock from './MermaidBlock'
 
-export default (props) => {
+export default memo((props) => {
     const newProps = {
         ...props,
         plugins: [
@@ -33,4 +33,4 @@ export default (props) => {
             />
         </MathJax.Context>
     );
-};
+});

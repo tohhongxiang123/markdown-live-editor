@@ -1,14 +1,27 @@
 .documentCard {
-    padding: 3px 10px;
+    margin-bottom: 0.2rem;
+}
+
+.documentHeader {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: baseline;
+    padding: 10px;
 }
 
 .expandButton {
-    margin: 2px 5px 2px 2px;
+    margin: 5px;
     border: none;
-    font-size: 16px;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 5px 10px;
 
     &:hover {
         box-shadow: none;
+    }
+
+    &:focus {
+        outline: none;
     }
 }
 
@@ -19,4 +32,8 @@
     li {
         margin-bottom: 0;
     }
+}
+
+.active {
+    background-color: rgba(0,0,0,0.2);
 }
