@@ -8,6 +8,7 @@ import {ReactComponent as AddIcon} from '../../icons/add.svg'
 import {ReactComponent as EditIcon} from '../../icons/edit.svg'
 import ConfirmationDialog from '../Dialog/ConfirmationDialog'
 import useAxios from '../../utils/useAxios'
+import tryLowerCase from '../../utils/tryLowerCase'
 
 const SORT_METHODS = {
     DATE: {
@@ -26,6 +27,7 @@ export default function DocumentList({page, documents, activeId}) {
     const [{isLoading, error, data}, request] = useAxios()
     const {token} = useContext(userContext) 
     const [sortMethod, setSortMethod] = useState(SORT_METHODS.DATE.ASC)
+    const [searchText, setSearchText] = useState('')
 
     const deletePage = () => {
         request({
@@ -40,19 +42,21 @@ export default function DocumentList({page, documents, activeId}) {
     }, [data, history])
 
     const sortedDocuments = useMemo(() => {
+        console.log(documents, 'DOCUMENTS')
+        const filteredDocuments = documents.filter(document => tryLowerCase(document.title).includes(tryLowerCase(searchText)))
         switch(sortMethod) {
             case SORT_METHODS.DATE.ASC:
-                return documents.sort((a, b) => a.datecreated < b.datecreated ? -1 : 0)
+                return filteredDocuments.sort((a, b) => a.datecreated < b.datecreated ? -1 : 0)
             case SORT_METHODS.DATE.DESC:
-                return documents.sort((a, b) => a.datecreated > b.datecreated ? -1 : 0)
+                return filteredDocuments.sort((a, b) => a.datecreated > b.datecreated ? -1 : 0)
             case SORT_METHODS.ALPHABETICAL.ASC:
-                return documents.sort((a, b) => a.title < b.title ? -1 : 0)
+                return filteredDocuments.sort((a, b) => a.title < b.title ? -1 : 0)
             case SORT_METHODS.ALPHABETICAL.DESC:
-                return documents.sort((a, b) => a.title > b.title ? -1 : 0)
+                return filteredDocuments.sort((a, b) => a.title > b.title ? -1 : 0)
             default:
-                return documents
+                return filteredDocuments
         }
-    }, [sortMethod, documents])
+    }, [sortMethod, documents, searchText])
     
     return (
         <>
@@ -60,6 +64,7 @@ export default function DocumentList({page, documents, activeId}) {
             <nav className={styles.documentListContainer}>
                 <header className={styles.navHeader}>
                     <p><strong>{page.title}</strong></p>
+                    <input type="text" placeholder="Find document" value={searchText} onChange={e => setSearchText(e.target.value)} />
                     {isLoading ? <p>Loading...</p> : null}
                 </header>
                 {error ? <p style={{padding: '10px'}}>{error}</p> : null}
