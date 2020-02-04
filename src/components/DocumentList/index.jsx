@@ -18,7 +18,7 @@ const SORT_METHODS = {
     ALPHABETICAL: {
         ASC: 'ALPHABETICAL_ASC',
         DESC: 'ALPHABETICAL_DESC'
-    }
+    },
 }
 
 export default function DocumentList({page, documents, activeId}) {
@@ -76,7 +76,7 @@ export default function DocumentList({page, documents, activeId}) {
                         <option value={SORT_METHODS.DATE.ASC}>Date ascending</option>
                         <option value={SORT_METHODS.DATE.DESC}>Date descending</option>
                         <option value={SORT_METHODS.ALPHABETICAL.ASC}>Alphabetical ascending</option>
-                        <option value={SORT_METHODS.ALPHABETICAL.DESC}>Aphabetical decending</option>
+                        <option value={SORT_METHODS.ALPHABETICAL.DESC}>Aphabetical descending</option>
                     </select>
                     
                     <Link to={`/pages/${page._id}/create`}><button className={`button ${styles.actionButtons}`}><AddIcon /></button></Link>

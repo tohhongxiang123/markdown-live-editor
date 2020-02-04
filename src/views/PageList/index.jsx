@@ -32,6 +32,10 @@ const SORT_METHODS = {
     ALPHABETICAL: {
         ASC: 'ALPHABETICAL_ASC',
         DESC: 'ALPHABETICAL_DESC'
+    },
+    DOCUMENTS: {
+        ASC: 'DOCUMENTS_ASC',
+        DESC: 'DOCUMENTS_DESC'
     }
 }
 
@@ -54,6 +58,10 @@ export default function PageList() {
                 return filteredPages.sort((a, b) => a.title < b.title ? -1 : 0)
             case SORT_METHODS.ALPHABETICAL.DESC:
                 return filteredPages.sort((a, b) => a.title > b.title ? -1 : 0)
+            case SORT_METHODS.DOCUMENTS.ASC:
+                return filteredPages.sort((a, b) => a.documents.length < b.documents.length ? -1 : 0)
+            case SORT_METHODS.DOCUMENTS.DESC:
+                return filteredPages.sort((a, b) => a.documents.length > b.documents.length ? -1 : 0)
             default:
                 return filteredPages
         }
@@ -69,7 +77,9 @@ export default function PageList() {
                     <option value={SORT_METHODS.DATE.ASC}>Date ascending</option>
                     <option value={SORT_METHODS.DATE.DESC}>Date descending</option>
                     <option value={SORT_METHODS.ALPHABETICAL.ASC}>Alphabetical ascending</option>
-                    <option value={SORT_METHODS.ALPHABETICAL.DESC}>Aphabetical decending</option>
+                    <option value={SORT_METHODS.ALPHABETICAL.DESC}>Aphabetical decsending</option>
+                    <option value={SORT_METHODS.DOCUMENTS.ASC}>Number of documents ascending</option>
+                    <option value={SORT_METHODS.DOCUMENTS.DESC}>Number of documents descending</option>
                 </select>
             </header>
             {error ? <p><i>{error}</i></p> : null}
