@@ -10,14 +10,15 @@ import axios from 'axios'
  * @param {string} document.childof
  * @param {string} document.pageid
  */
-export default async function createDocument({title, description, body, authorid, childof, pageid}) {
+export default async function createDocument({title, description, body, authorid, childof, pageid}, headers) {
     try {
         const response = await axios.request({
             url: '/api/documents/create',
             method: 'post',
             data: {
                 title, description, body, authorid, childof, pageid
-            }
+            },
+            headers 
         })
 
         return {data: response.data}

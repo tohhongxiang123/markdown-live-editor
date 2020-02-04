@@ -17,14 +17,14 @@ export default function DocumentCard({_id, title, description, author, children,
 
     return (
         <div className={styles.documentCard}>
-            <div className={`${styles.documentHeader} ${_id === activeId && styles.active}`}>
+            <Link className={`${styles.documentHeader} ${_id === activeId && styles.active}`} to={`/pages/${match.params.pageid}/documents/${_id}`}>
                 {children && children.length > 0 ? (
                 <button onClick={() => setIsExpanded(s => !s)} className={styles.expandButton}> {!isExpanded ? "ᐳ" : "ᐯ"} </button> 
                 ): <button disabled className={styles.expandButton}><strong>&#x00B7;</strong></button>}
-                <Link to={`/pages/${match.params.pageid}/documents/${_id}`}>
+                <div>
                     {_id === activeId ? <strong>{title}</strong> : <span>{title}</span>}
-                </Link>
-            </div>
+                </div>
+            </Link>
             {children && isExpanded ? (
                 <ul className={styles.childrenList}>
                     {children.map(child => <li key={child._id}><DocumentCard {...child} activeId={activeId} /></li>)}

@@ -1,6 +1,6 @@
 import React, {useContext, useState, useEffect} from 'react'
 import { userContext } from '../context/UserContext'
-import axios from 'axios'
+import useAxios from '../utils/useAxios'
 import ConfirmationDialog from '../components/Dialog/ConfirmationDialog'
 import { useHistory } from 'react-router-dom'
 
@@ -10,13 +10,13 @@ export default function Profile() {
     const [newPassword, setNewPassword] = useState('')
     const [newPasswordAgain, setNewPasswordAgain] = useState('')
     
-    const {user, setToken} = useContext(userContext)
+    const {user, token, setToken} = useContext(userContext)
     useEffect(() => {
         if (user) setUsername(user.username)
     }, [user])
 
     const [error, setError] = useState(null)
-    const [isLoading, setIsLoading] = useState(false)
+    const [{error: submissionError, isLoading: isSubmitting, data}, requestSubmit] = useAxios()
     const history = useHistory()
 
     const handleSubmit = async e => {
@@ -28,27 +28,37 @@ export default function Profile() {
 
         const originalInfo = {password}
         const updatedInfo = {username, password : newPassword.length > 0 ? newPassword : password}
-        setIsLoading(true)
-
-        try {
-            const response = await axios.post(`/api/users/_id/${user._id}`, {updatedInfo, originalInfo})
-            setToken(response.token)
-            history.push('/')
-        } catch(e) {
-            if (e.response) {
-                setError(e.response.data.error)
-            } else {
-                setError(e.message)
+        requestSubmit({
+            url: `/api/users/_id/${user._id}`,
+            method: 'post',
+            data: {
+                updatedInfo, originalInfo
+            },
+            headers: {
+                authorization: `Bearer ${token}`
             }
-        } finally {
-            setIsLoading(false)
-        }
+        })
     }
+
+    useEffect(() => {
+        if (data) setToken(data.token)
+        setIsEditing(false)
+    }, [data, setToken])
 
     const [isDialogOpen, setIsDialogOpen] = useState(false)
+    const [{error: deleteError, isLoading: isDeleting, data: deleteData}, requestDelete] = useAxios()
     const deleteUser = async () => {
-        console.log('delete')
+        requestDelete({
+            url: `/api/users/_id/${user._id}`,
+            method: 'delete',
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
     }
+    useEffect(() => {
+        if (deleteData) history.push('/logout')
+    }, [deleteData, history])
 
     const [isEditing, setIsEditing] = useState(false)
 
@@ -66,17 +76,19 @@ export default function Profile() {
                 <input type="password" id="newPasswordAgain" value={newPasswordAgain} onChange={e => setNewPasswordAgain(e.target.value)} />
                 <label htmlFor="password">Original Password</label>
                 <input type="password" id="password" value={password} onChange={e => setPassword(e.target.value)} />
-                {error ? <p><i>{error}</i></p> : null}
+                {error && <p><i>{error}</i></p>}
+                {submissionError && <p><i>{submissionError}</i></p>}
                 <div style={{textAlign: 'right'}}>
-                    <button className="button-primary" disabled={isLoading} type="submit">{isLoading ? "Loading..." : 'Submit'}</button>
-                    <button className="button" disabled={isLoading} onClick={() => setIsEditing(false)} type="button">Cancel</button>
+                    <button className="button-primary" disabled={isSubmitting} type="submit">{isSubmitting ? "Loading..." : 'Submit'}</button>
+                    <button className="button" disabled={isSubmitting} onClick={() => setIsEditing(false)} type="button">Cancel</button>
                 </div>
             </form> ) : (
                 <div className="card">
                     <p><strong>Profile</strong></p>
                     <p>Username: <strong>{username}</strong></p>
-                    <button className="button-primary" onClick={() => setIsEditing(true)}>Edit Profile</button>
-                    <button className="button" onClick={() => setIsDialogOpen(true)}>Delete</button>
+                    {deleteError && <p><i>{deleteError}</i></p>}
+                    <button className="button-primary" onClick={() => setIsEditing(true)} disabled={isDeleting}>Edit Profile</button>
+                    <button className="button" onClick={() => setIsDialogOpen(true)} disabled={isDeleting}>Delete</button>
                 </div>
             )}
         </div>

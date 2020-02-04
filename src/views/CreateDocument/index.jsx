@@ -5,12 +5,12 @@ import Editor from '../../components/Editor'
 import styles from '../EditDocument/EditDocument.module.scss'
 import createDocument from './createDocument'
 
-export default function EditDocument() {
+export default function CreateDocument() {
     const params = useParams()
     const history = useHistory()
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
-    const {user} = useContext(userContext)
+    const {user, token} = useContext(userContext)
 
     const save = async ({title, body, description}) => {
         const childof = params._id ? params._id : null;
@@ -21,7 +21,7 @@ export default function EditDocument() {
         setIsLoading(true)
         setError(null)
 
-        const {data: document, error} = await createDocument({title, description, body, childof, authorid, pageid})
+        const {data: document, error} = await createDocument({title, description, body, childof, authorid, pageid}, {authorization: `Bearer ${token}`})
         console.log(document, error)
 
         if (error) {

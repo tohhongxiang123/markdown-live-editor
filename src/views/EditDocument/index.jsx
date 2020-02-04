@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import getDocument from './getDocument'
 import Editor from '../../components/Editor'
 import styles from './EditDocument.module.scss'
 import saveDocument from './saveDocument'
+import { userContext } from '../../context/UserContext'
 
 const MAX_DESCRIPTION_LENGTH = 140;
 const MAX_TITLE_LENGTH = 140;
@@ -14,6 +15,7 @@ export default function EditDocument() {
     const [document, setDocument] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
+    const {token} = useContext(userContext)
 
     useEffect(() => {
         async function fetch() {
@@ -35,7 +37,7 @@ export default function EditDocument() {
         if (title.length > MAX_TITLE_LENGTH) return setError(`Title is too long (${title.length}/${MAX_TITLE_LENGTH} characters)`)
         if (description.length > MAX_DESCRIPTION_LENGTH) return setError(`Title is too long (${description.length}/${MAX_DESCRIPTION_LENGTH} characters)`)
         
-        const {error} = await saveDocument(_id, {title, body, description})
+        const {error} = await saveDocument(_id, {title, body, description}, {authorization: `Bearer ${token}`})
 
         if (error) {
             return setError(error)

@@ -1,45 +1,83 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext, useMemo } from 'react'
+import { userContext } from '../../context/UserContext'
 import DocumentCard from './DocumentCard'
 import styles from './DocumentList.module.scss'
 import { Link, useHistory } from 'react-router-dom'
-import deleteIcon from './delete.svg'
-import addIcon from './add.svg'
+import {ReactComponent as DeleteIcon} from '../../icons/delete.svg'
+import {ReactComponent as AddIcon} from '../../icons/add.svg'
+import {ReactComponent as EditIcon} from '../../icons/edit.svg'
 import ConfirmationDialog from '../Dialog/ConfirmationDialog'
-import axios from 'axios'
+import useAxios from '../../utils/useAxios'
+
+const SORT_METHODS = {
+    DATE: {
+        ASC: 'DATE_ASC',
+        DESC: 'DATE_DESC'
+    },
+    ALPHABETICAL: {
+        ASC: 'ALPHABETICAL_ASC',
+        DESC: 'ALPHABETICAL_DESC'
+    }
+}
 
 export default function DocumentList({page, documents, activeId}) {
-    const [isDialogOpen, setIsDialogOpen] = useState(false)
-    const [error, setError] = useState(null)
     const history = useHistory()
+    const [isDialogOpen, setIsDialogOpen] = useState(false)
+    const [{isLoading, error, data}, request] = useAxios()
+    const {token} = useContext(userContext) 
+    const [sortMethod, setSortMethod] = useState(SORT_METHODS.DATE.ASC)
 
-    const deletePage = async () => {
-        setError(null)
-        setIsDialogOpen(false)
-        try {
-            await axios.delete(`/api/pages/_id/${page._id}`)
-            history.push(`/pages`)
-        } catch(e) {
-            if (e.response) {
-                setError(e.response.data.error)
-            } else {
-                setError(e.message)
-            }
-        }
+    const deletePage = () => {
+        request({
+            url: `/api/pages/_id/${page._id}`,
+            method: 'delete',
+            headers: {authorization: `Bearer ${token}`}
+        })
     }
 
+    useEffect(() => {
+        if (data) history.push(`/pages`)
+    }, [data, history])
+
+    const sortedDocuments = useMemo(() => {
+        switch(sortMethod) {
+            case SORT_METHODS.DATE.ASC:
+                return documents.sort((a, b) => a.datecreated < b.datecreated ? -1 : 0)
+            case SORT_METHODS.DATE.DESC:
+                return documents.sort((a, b) => a.datecreated > b.datecreated ? -1 : 0)
+            case SORT_METHODS.ALPHABETICAL.ASC:
+                return documents.sort((a, b) => a.title < b.title ? -1 : 0)
+            case SORT_METHODS.ALPHABETICAL.DESC:
+                return documents.sort((a, b) => a.title > b.title ? -1 : 0)
+            default:
+                return documents
+        }
+    }, [sortMethod, documents])
+    
     return (
         <>
             <ConfirmationDialog open={isDialogOpen} handleClose={() => setIsDialogOpen(false)} action={deletePage} title="Delete Page?" />
             <nav className={styles.documentListContainer}>
                 <header className={styles.navHeader}>
                     <p><strong>{page.title}</strong></p>
-                    <Link to={`/pages/${page._id}/create`}><button className={`button ${styles.actionButtons}`}><img src={addIcon} alt="Add"/></button></Link>
-                    <button className={`button ${styles.actionButtons}`} onClick={() => setIsDialogOpen(true)}><img src={deleteIcon} alt="Delete" /></button>
+                    {isLoading ? <p>Loading...</p> : null}
                 </header>
-                {error ? <p>{error}</p> : null}
+                {error ? <p style={{padding: '10px'}}>{error}</p> : null}
                 <ul className={styles.documentList}>
-                    {documents.map(doc => <DocumentCard {...doc} key={doc._id} activeId={activeId} />)}
+                    {sortedDocuments.map(doc => <DocumentCard {...doc} key={doc._id} activeId={activeId} />)}
                 </ul>
+                <div className={styles.pageActions}>
+                    <select onChange={e => setSortMethod(e.target.value)}>
+                        <option value={SORT_METHODS.DATE.ASC}>Date ascending</option>
+                        <option value={SORT_METHODS.DATE.DESC}>Date descending</option>
+                        <option value={SORT_METHODS.ALPHABETICAL.ASC}>Alphabetical ascending</option>
+                        <option value={SORT_METHODS.ALPHABETICAL.DESC}>Aphabetical decending</option>
+                    </select>
+                    
+                    <Link to={`/pages/${page._id}/create`}><button className={`button ${styles.actionButtons}`}><AddIcon /></button></Link>
+                    <Link to={`/edit/${page._id}`}><button className={`button ${styles.actionButtons}`}><EditIcon /></button></Link>
+                    <button className={`button ${styles.actionButtons}`} onClick={() => setIsDialogOpen(true)}><DeleteIcon /></button>
+                </div>
             </nav>
         </>
     )

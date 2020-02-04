@@ -4,6 +4,7 @@ import Previewer from '../Previewer'
 import RichTextInput from './RichTextInput'
 import Gutter from './Gutter'
 import { ScrollSync , ScrollSyncPane } from 'react-scroll-sync'
+import splitBlocks from './splitBlocks'
 
 const MAX_DESCRIPTION_LENGTH = 140;
 const MAX_TITLE_LENGTH = 140;
@@ -78,8 +79,8 @@ export default function Editor({initialDocument, save, isLoading, error}) {
         }
     })()
 
-    const previewBlocks = body.split('\n\n').map((block, index) => <Previewer source={block} key={index} />)
-
+    const previewBlocks = splitBlocks(body).map((block, index) => <Previewer source={block} key={index} />)
+    
     return (
         <>
         <header className={styles.editHeader}>
@@ -117,7 +118,9 @@ export default function Editor({initialDocument, save, isLoading, error}) {
                         <div className={styles.editorSectionHeader}>
                             <p>MARKDOWN</p>
                         </div>
-                        <RichTextInput updateText={updateText} toggleState={`${isPreviewShown} ${isEditorShown}`} text={body} />
+                        <div style={{paddingBottom: '300px'}}>
+                            <RichTextInput updateText={updateText} toggleState={`${isPreviewShown} ${isEditorShown}`} text={body} />
+                        </div>
                     </div>
                 </ScrollSyncPane>
                 <ScrollSyncPane>
@@ -125,7 +128,7 @@ export default function Editor({initialDocument, save, isLoading, error}) {
                         <div className={styles.editorSectionHeader}>
                             <p>PREVIEW</p>
                         </div>
-                        <div>
+                        <div style={{paddingBottom: '300px'}}>
                             {previewBlocks}
                         </div>
                     </div>

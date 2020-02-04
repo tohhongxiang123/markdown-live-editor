@@ -10,7 +10,6 @@ function useQuery(query, variables) {
     useEffect(() => {
         const source = axios.CancelToken.source()
         async function fetch() {
-            console.log('QUERY', query, variablesString)
             setIsLoading(true)
             try {
                 const response = await axios.request({

@@ -1,9 +1,12 @@
 .documentListContainer {
     width: 300px;
     border-right: 1px solid #ccc;
-    min-height: 100vh;
-    padding: 10px 0;
+    height: 100%;
+    padding: 10px 0 0 0;
+    display: grid;
+    grid-template-rows: min-content 1fr min-content;
     background-color: #2C7EDE;
+    // box-shadow: 0 3px 3px 0 rgba(0,0,0,0.2) inset;
 
     * {
         color: #fafafa;
@@ -16,9 +19,8 @@
     padding: 10px;
     border-bottom: 1px solid #ccc;
     display: grid;
-    grid-auto-flow: column;
     grid-template-columns: 1fr;
-    align-items: center;
+    grid-auto-flow: column;
 
     p {
         font-size: 1.1rem;
@@ -33,4 +35,17 @@
 .documentList {
     margin: 0;
     padding: 0;
+    overflow: scroll;
+}
+
+.pageActions {
+    position: sticky;
+    bottom: 0;
+    background-color: #345ED8;
+    padding: 10px;
+    text-align: right;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr;
+    align-items: center;
 }

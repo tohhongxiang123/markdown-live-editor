@@ -13,15 +13,19 @@ query ($pageId: ID) {
         documents {
             _id
             title
+            datecreated
             children {
                 _id
                 title
+                datecreated
                 children {
                     _id
                     title
+                    datecreated
                     children {
                         _id
                         title
+                        datecreated
                     }
                 }
             }
@@ -43,6 +47,7 @@ export default function ShowDocuments() {
                 <DocumentList page={page} documents={documents} activeId={_id} />
             </div>
             <div className={styles.documentContainer}>
+                {error && <p><i>{error}</i></p>}
                 <Document _id={_id} pageid={pageid} key={_id} />
             </div>
         </div>
