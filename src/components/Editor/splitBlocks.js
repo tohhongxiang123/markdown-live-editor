@@ -33,7 +33,6 @@ function splitBlocks(block) {
         }
     }  
 
-    console.log(blocks)
     return blocks
 }
 

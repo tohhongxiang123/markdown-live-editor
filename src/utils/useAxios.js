@@ -25,10 +25,8 @@ function useAxios() {
     
             try {
                 const response = await axios.request(config)
-                console.log(response)
                 setData(response.data)
             } catch(e) {
-                console.log(e, e.response.data)
                 if (e.response) {
                     let errorMessage = e.response.data.error
                     if (typeof errorMessage !== 'string') errorMessage = JSON.stringify(errorMessage)

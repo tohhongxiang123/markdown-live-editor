@@ -29,7 +29,6 @@ function useQuery(query, variables) {
                     return
                 }
 
-                console.log(e)
                 if (e.response && e.response.data.hasOwnProperty('errors')) {
                     setError(e.response.data.errors[0].message)
                 } else {

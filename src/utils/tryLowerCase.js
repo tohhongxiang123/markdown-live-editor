@@ -1,6 +1,5 @@
 function tryLowerCase(word) {
     const letters = []
-    console.log(word)
     for (const letter of word) {
         try {
             letters.push(letter.toLowerCase())

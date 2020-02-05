@@ -11,7 +11,6 @@ async function saveDocument(_id, changes, headers) {
 
         return {data: response.data}
     } catch(e) {
-        console.log(e, e.response)
         if (e.response) return {error: e.response.data.error}
         return {error: e.message}
     }

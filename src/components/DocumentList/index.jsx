@@ -42,7 +42,6 @@ export default function DocumentList({page, documents, activeId}) {
     }, [data, history])
 
     const sortedDocuments = useMemo(() => {
-        console.log(documents, 'DOCUMENTS')
         const filteredDocuments = documents.filter(document => tryLowerCase(document.title).includes(tryLowerCase(searchText)))
         switch(sortMethod) {
             case SORT_METHODS.DATE.ASC:

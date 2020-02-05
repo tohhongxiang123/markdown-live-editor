@@ -16,13 +16,11 @@ export default function CreateDocument() {
         const childof = params._id ? params._id : null;
         const authorid = user._id;
         const pageid = params.pageid ? params.pageid : null;
-        console.log(params)
 
         setIsLoading(true)
         setError(null)
 
         const {data: document, error} = await createDocument({title, description, body, childof, authorid, pageid}, {authorization: `Bearer ${token}`})
-        console.log(document, error)
 
         if (error) {
             setIsLoading(false)
