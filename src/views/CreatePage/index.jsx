@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import useAxios from '../../utils/useAxios'
 import { useHistory } from 'react-router-dom'
 import { userContext } from '../../context/UserContext'
+import ErrorText from '../../components/ErrorText'
 
 export default function CreatePage() {
     const history = useHistory()
@@ -30,7 +31,7 @@ export default function CreatePage() {
                 <h2>Create a new page</h2>
                 <label htmlFor="title">Title</label>
                 <input id="title" value={title} onChange={e => setTitle(e.target.value)} />
-                {error ? <p>{error}</p> : null}
+                {error ? <ErrorText>{error}</ErrorText> : null}
                 <button className="button-primary" disabled={isLoading}>{isLoading ? 'Loading...' : 'Create Page'}</button>
             </form>
         </div>

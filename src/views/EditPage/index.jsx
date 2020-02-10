@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import { userContext } from '../../context/UserContext'
 import useAxios from '../../utils/useAxios'
 import { useParams, useHistory } from 'react-router-dom'
+import ErrorText from '../../components/ErrorText'
 
 export default function EditPage() {
     const history = useHistory()
@@ -44,8 +45,8 @@ export default function EditPage() {
                 <h2>Edit page</h2>
                 <label htmlFor="title">Title</label>
                 <input id="title" value={title} onChange={e => setTitle(e.target.value)} disabled={isSubmitting || isFetching} />
-                {submissionError ? <p>{submissionError}</p> : null}
-                {fetchError ? <p>{fetchError}</p> : null}
+                {submissionError ? <ErrorText>{submissionError}</ErrorText> : null}
+                {fetchError ? <ErrorText>{fetchError}</ErrorText> : null}
                 <button className="button-primary" disabled={isSubmitting || isFetching}>{isSubmitting || isFetching ? 'Loading...' : 'Confirm'}</button>
             </form>
         </div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
+import ErrorText from '../components/ErrorText'
 
 export default function Register() {
     const [username, setUsername] = useState('')
@@ -45,7 +46,7 @@ export default function Register() {
                 <input type="password" value={password} onChange={e => setPassword(e.target.value)} id="password" />
                 <label htmlFor="passwordAgain">Password again</label>
                 <input type="password" value={passwordAgain} onChange={e => setPasswordAgain(e.target.value)} id="passwordAgain" />
-                {error ? <p>{error}</p> : null}
+                {error ? <ErrorText>{error}</ErrorText> : null}
                 <button type="submit" className="button-primary" disabled={isLoading}>{isLoading ? 'Loading...' : 'Submit'}</button>
             </form>
         </div>

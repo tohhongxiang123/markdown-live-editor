@@ -2,11 +2,11 @@
     margin-bottom: 0.2rem;
 }
 
-.documentHeader {
+.documentTitle {
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: baseline;
-    padding: 10px;
+    padding: 10px 0;
 }
 
 .expandButton {

@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import { userContext } from '../context/UserContext'
 import { Redirect } from 'react-router-dom'
 import axios from 'axios'
+import ErrorText from '../components/ErrorText'
 
 export default function Login(props) {
     const [username, setUsername] = useState('')
@@ -40,7 +41,7 @@ export default function Login(props) {
                 <input type="text" value={username} onChange={e => setUsername(e.target.value)}/>
                 <label>Password</label>
                 <input type="password" value={password} onChange={e => setPassword(e.target.value)}/>
-                {error ? <p>{error}</p> : null}
+                {error ? <ErrorText>{error}</ErrorText> : null}
                 <button 
                     type="submit" 
                     className="button-primary" 

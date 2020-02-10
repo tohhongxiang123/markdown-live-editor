@@ -9,6 +9,7 @@ import {ReactComponent as EditIcon} from '../../icons/edit.svg'
 import ConfirmationDialog from '../Dialog/ConfirmationDialog'
 import useAxios from '../../utils/useAxios'
 import tryLowerCase from '../../utils/tryLowerCase'
+import ErrorText from '../ErrorText'
 
 const SORT_METHODS = {
     DATE: {
@@ -66,7 +67,7 @@ export default function DocumentList({page, documents, activeId}) {
                     <input type="text" placeholder="Find document" value={searchText} onChange={e => setSearchText(e.target.value)} />
                     {isLoading ? <p>Loading...</p> : null}
                 </header>
-                {error ? <p style={{padding: '10px'}}>{error}</p> : null}
+                {error ? <ErrorText>{error}</ErrorText> : null}
                 <ul className={styles.documentList}>
                     {sortedDocuments.map(doc => <DocumentCard {...doc} key={doc._id} activeId={activeId} />)}
                 </ul>
@@ -78,8 +79,8 @@ export default function DocumentList({page, documents, activeId}) {
                         <option value={SORT_METHODS.ALPHABETICAL.DESC}>Aphabetical descending</option>
                     </select>
                     
-                    <Link to={`/pages/${page._id}/create`}><button className={`button ${styles.actionButtons}`}><AddIcon /></button></Link>
-                    <Link to={`/edit/${page._id}`}><button className={`button ${styles.actionButtons}`}><EditIcon /></button></Link>
+                    <Link to={`/pages/${page._id}/create`} className={`button ${styles.actionButtons}`}><AddIcon /></Link>
+                    <Link to={`/edit/${page._id}`} className={`button ${styles.actionButtons}`}><EditIcon /></Link>
                     <button className={`button ${styles.actionButtons}`} onClick={() => setIsDialogOpen(true)}><DeleteIcon /></button>
                 </div>
             </nav>

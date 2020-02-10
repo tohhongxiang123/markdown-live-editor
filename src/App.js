@@ -13,8 +13,7 @@ import { UserProvider } from './context/UserContext'
 import Login from './views/Login'
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 import './App.scss'
-import 'codemirror/lib/codemirror.css';
-import './cmOverride.scss'
+import './MonacoOverride.scss'
 import PrivateRoute from './components/PrivateRoute'
 
 export default function App() {

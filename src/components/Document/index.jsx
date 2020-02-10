@@ -8,6 +8,7 @@ import useAxios from '../../utils/useAxios'
 import { useHistory } from 'react-router-dom'
 import { userContext } from '../../context/UserContext'
 import moment from 'moment'
+import ErrorText from '../ErrorText'
 import {ReactComponent as DeleteIcon} from '../../icons/delete.svg'
 import {ReactComponent as AddIcon} from '../../icons/add.svg'
 import {ReactComponent as EditIcon} from '../../icons/edit.svg'
@@ -58,10 +59,10 @@ export default function Document({_id, pageid}) {
         <div className={styles.main}>
             <ConfirmationDialog open={isDialogOpen} handleClose={() => setIsDialogOpen(false)} action={deletePost} title={"Delete post?"} />
 
-            {error ? <p>{error}</p> : null}
+            {error ? <ErrorText>{'What'}</ErrorText> : null}
             {isLoading ? <p>Loading...</p> : document ? (
-                <div>
-                    <div className={styles.documentHeaderContainer}>
+                <>
+                    <div className={styles.documentInformation}>
                         <header>
                             <h2 className={styles.documentTitle}>{document.title}</h2>
                             <p className={styles.documentDescription}>Created by <strong>{document.author.username}</strong>, last modified {moment(parseInt(document.datemodified)).format('MMMM Do YYYY, h:mm:ss a')}</p>
@@ -69,19 +70,32 @@ export default function Document({_id, pageid}) {
                         </header>
                         <div style={{textAlign: 'center'}}>
                             <ul className={styles.documentActions}>
-                                <li><Link to={`/pages/${pageid}/create/${_id}`}><button className="button-primary" disabled={isDeleting} style={{color: 'black'}}><AddIcon />Create</button></Link></li>
-                                <li><Link to={`/pages/${pageid}/edit/${_id}`}><button disabled={isDeleting}><EditIcon />Edit</button></Link></li>
-                                <li><button onClick={() => setIsDialogOpen(true)} disabled={isDeleting}><DeleteIcon />Delete</button></li>
+                                <li>
+                                    <Link to={`/pages/${pageid}/create/${_id}`}>
+                                        <button className="button-primary" disabled={isDeleting} style={{color: 'black'}}>
+                                            <AddIcon />
+                                            Create
+                                        </button>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to={`/pages/${pageid}/edit/${_id}`}>
+                                        <button disabled={isDeleting}><EditIcon />Edit</button>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <button onClick={() => setIsDialogOpen(true)} disabled={isDeleting}>
+                                        <DeleteIcon />Delete
+                                    </button>
+                                </li>
                             </ul>
-                            {deleteError && <div>
-                                <p>{deleteError}</p>
-                            </div>}
+                            {deleteError && <ErrorText>{deleteError}</ErrorText>}
                         </div>
                     </div>
                     <Previewer source={document.body} />
-                </div>
+                </>
             ) : (
-                <div>
+                <>
                     <p>No document selected</p>
                     <div className={styles.pageActions}>
                         <Link className={`card ${styles.pageAction} ${styles.primaryPageAction}`} to={`/pages/${pageid}/create`}>
@@ -89,7 +103,7 @@ export default function Document({_id, pageid}) {
                             <p>Add a Document</p>
                         </Link>
                     </div>
-                </div>
+                </>
             )}
         </div>
     )

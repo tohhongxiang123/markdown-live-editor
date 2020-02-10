@@ -4,6 +4,7 @@ import DocumentList from '../components/DocumentList'
 import Document from '../components/Document'
 import styles from './ShowDocuments.module.scss'
 import useQuery from '../utils/useQuery'
+import ErrorText from '../components/ErrorText'
 
 const getPageDocumentsQuery = `
 query ($pageId: ID) {
@@ -43,11 +44,9 @@ export default function ShowDocuments() {
 
     return (
         <div className={styles.showDocuments}>
-            <div className={styles.documentListContainer}>
-                <DocumentList page={page} documents={documents} activeId={_id} />
-            </div>
-            <div className={styles.documentContainer}>
-                {error && <p><i>{error}</i></p>}
+            <DocumentList page={page} documents={documents} activeId={_id} />
+            <div style={{overflow: 'auto'}}>
+                {error && <ErrorText>{error}</ErrorText>}
                 <Document _id={_id} pageid={pageid} key={_id} />
             </div>
         </div>

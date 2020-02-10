@@ -3,6 +3,7 @@ import { userContext } from '../context/UserContext'
 import useAxios from '../utils/useAxios'
 import ConfirmationDialog from '../components/Dialog/ConfirmationDialog'
 import { useHistory } from 'react-router-dom'
+import ErrorText from '../components/ErrorText'
 
 export default function Profile() {
     const [username, setUsername] = useState('')
@@ -76,8 +77,8 @@ export default function Profile() {
                 <input type="password" id="newPasswordAgain" value={newPasswordAgain} onChange={e => setNewPasswordAgain(e.target.value)} />
                 <label htmlFor="password">Original Password</label>
                 <input type="password" id="password" value={password} onChange={e => setPassword(e.target.value)} />
-                {error && <p><i>{error}</i></p>}
-                {submissionError && <p><i>{submissionError}</i></p>}
+                {error && <ErrorText>{error}</ErrorText>}
+                {submissionError && <ErrorText>{submissionError}</ErrorText>}
                 <div style={{textAlign: 'right'}}>
                     <button className="button-primary" disabled={isSubmitting} type="submit">{isSubmitting ? "Loading..." : 'Submit'}</button>
                     <button className="button" disabled={isSubmitting} onClick={() => setIsEditing(false)} type="button">Cancel</button>
@@ -86,7 +87,7 @@ export default function Profile() {
                 <div className="card">
                     <p><strong>Profile</strong></p>
                     <p>Username: <strong>{username}</strong></p>
-                    {deleteError && <p><i>{deleteError}</i></p>}
+                    {deleteError && <ErrorText>{deleteError}</ErrorText>}
                     <button className="button-primary" onClick={() => setIsEditing(true)} disabled={isDeleting}>Edit Profile</button>
                     <button className="button" onClick={() => setIsDialogOpen(true)} disabled={isDeleting}>Delete</button>
                 </div>

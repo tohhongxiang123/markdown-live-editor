@@ -5,6 +5,7 @@ import styles from './PageList.module.scss'
 import tryLowerCase from '../../utils/tryLowerCase'
 import { userContext } from '../../context/UserContext'
 import { Link } from 'react-router-dom'
+import ErrorText from '../../components/ErrorText'
 
 const getPages = `
 query ($userid: ID) {
@@ -82,7 +83,7 @@ export default function PageList() {
                     <option value={SORT_METHODS.DOCUMENTS.DESC}>Number of documents descending</option>
                 </select>
             </header>
-            {error ? <p><i>{error}</i></p> : null}
+            {error ? <ErrorText>{error}</ErrorText> : null}
             <div className={styles.pageContainer}>
                 {sortedAndFilteredPages.map(page => <Link key={page._id} to={`/pages/${page._id}/documents`}><PageCard title={page.title} documents={page.documents} author={page.author} /></Link>)}
             </div>

@@ -16,20 +16,18 @@ export default function DocumentCard({_id, title, description, author, children,
     const match = useRouteMatch()
 
     return (
-        <div className={styles.documentCard}>
-            <Link className={`${styles.documentHeader} ${_id === activeId && styles.active}`} to={`/pages/${match.params.pageid}/documents/${_id}`}>
+        <li className={styles.documentCard}>
+            <Link className={`${styles.documentTitle} ${_id === activeId && styles.active}`} to={`/pages/${match.params.pageid}/documents/${_id}`}>
                 {children && children.length > 0 ? (
                 <button onClick={() => setIsExpanded(s => !s)} className={styles.expandButton}> {!isExpanded ? "ᐳ" : "ᐯ"} </button> 
                 ): <button disabled className={styles.expandButton}><strong>&#x00B7;</strong></button>}
-                <div>
-                    {_id === activeId ? <strong>{title}</strong> : <span>{title}</span>}
-                </div>
+                {_id === activeId ? <strong>{title}</strong> : <span>{title}</span>}
             </Link>
             {children && isExpanded ? (
                 <ul className={styles.childrenList}>
-                    {children.map(child => <li key={child._id}><DocumentCard {...child} activeId={activeId} /></li>)}
+                    {children.map(child => <DocumentCard {...child} activeId={activeId} key={child._id}/>)}
                 </ul>
             ) : null}
-        </div>
+        </li>
     )
 }

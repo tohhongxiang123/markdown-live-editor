@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import styles from './Editor.module.scss'
 import Previewer from '../Previewer'
 import RichTextInput from './RichTextInput'
 import Gutter from './Gutter'
-import { ScrollSync , ScrollSyncPane } from 'react-scroll-sync'
 import splitBlocks from './splitBlocks'
+import ErrorText from '../ErrorText'
 
 const MAX_DESCRIPTION_LENGTH = 140;
 const MAX_TITLE_LENGTH = 140;
@@ -20,7 +20,6 @@ export default function Editor({initialDocument, save, isLoading, error}) {
     const [body, setBody] = useState('')
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
-    const [isEditorShown, setIsEditorShown] = useState(true)
 
     useEffect(() => {
         if (initialDocument) {
@@ -34,6 +33,7 @@ export default function Editor({initialDocument, save, isLoading, error}) {
         setBody(text)
     }
 
+    const [isEditorShown, setIsEditorShown] = useState(true)
     const toggleEditor = () => {
         setIsEditorShown(p => !p);
     }
@@ -79,8 +79,20 @@ export default function Editor({initialDocument, save, isLoading, error}) {
         }
     })()
 
+    const editorContainerRef = useRef(null)
+    const [editorWidth, setEditorWidth] = useState(500)
+    useEffect(() => {
+        function handleWindowResize() {
+            setEditorWidth(editorContainerRef.current.clientWidth)
+        }
+        if (editorContainerRef.current) {
+            window.addEventListener('resize', handleWindowResize)
+        }
+
+        return () => window.removeEventListener('resize', handleWindowResize)
+    }, [editorContainerRef])
+
     const previewBlocks = splitBlocks(body).map((block, index) => <Previewer source={block} key={index} />)
-    
     return (
         <>
         <header className={styles.editHeader}>
@@ -90,7 +102,7 @@ export default function Editor({initialDocument, save, isLoading, error}) {
                     className={styles.titleInput}
                     placeholder="Title" 
                     onChange={e => {
-                        if (e.target.value.length <= 140) setTitle(e.target.value)
+                        if (e.target.value.length <= MAX_TITLE_LENGTH) setTitle(e.target.value)
                     }}
                     disabled={isLoading}
                 />
@@ -100,39 +112,32 @@ export default function Editor({initialDocument, save, isLoading, error}) {
                     className={styles.descriptionInput} 
                     placeholder="Description"  
                     onChange={e => {
-                        if (e.target.value.length <= 140) setDescription(e.target.value)
+                        if (e.target.value.length <= MAX_DESCRIPTION_LENGTH) setDescription(e.target.value)
                     }}
                     disabled={isLoading}
                 />
                 <p className={styles.helperText}>{description.length}/{MAX_DESCRIPTION_LENGTH} characters</p>
             </div>
             <div>
+                {error ? <ErrorText>{error}</ErrorText> : null}
                 <button className='button-primary' onClick={() => save({title, body, description})} disabled={isLoading}>{isLoading ? 'Loading...' : 'Publish'}</button>
-                {error ? <p>{error}</p> : null}
             </div>
         </header>
-        <ScrollSync>
             <div style={rootContainerStyles}>
-                <ScrollSyncPane>
-                    <div className={`${styles.scrollContainer} ${styles.editorContainer} ${isEditorShown || styles.hidden}`}>
+                    <div className={`${styles.scrollContainer} ${styles.editorContainer} ${isEditorShown || styles.hidden}`} ref={editorContainerRef}>
                         <div className={styles.editorSectionHeader}>
                             <p>MARKDOWN</p>
                         </div>
-                        <div style={{paddingBottom: '300px'}}>
-                            <RichTextInput updateText={updateText} toggleState={`${isPreviewShown} ${isEditorShown}`} text={body} />
-                        </div>
+                        <RichTextInput updateText={updateText} toggleState={`${isPreviewShown} ${isEditorShown} ${editorWidth}`} text={body} />
                     </div>
-                </ScrollSyncPane>
-                <ScrollSyncPane>
                     <div className={`${styles.scrollContainer} ${styles.previewerContainer} ${isPreviewShown || styles.hidden}`}>
                         <div className={styles.editorSectionHeader}>
                             <p>PREVIEW</p>
                         </div>
-                        <div style={{paddingBottom: '300px'}}>
+                        <div>
                             {previewBlocks}
                         </div>
                     </div>
-                </ScrollSyncPane>
                 <Gutter 
                     toggleEditor={toggleEditor} 
                     togglePreview={togglePreview} 
@@ -142,7 +147,6 @@ export default function Editor({initialDocument, save, isLoading, error}) {
                     save={() => save({title, description, body})}
                 />
             </div>
-        </ScrollSync>
         </>
     )
 }
