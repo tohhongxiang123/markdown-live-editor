@@ -65,7 +65,9 @@ export default function Profile() {
 
     return (
         <div>
-            <ConfirmationDialog open={isDialogOpen} handleClose={() => setIsDialogOpen(false)} action={deleteUser} title="Delete user?"/>
+            <ConfirmationDialog open={isDialogOpen} handleClose={() => setIsDialogOpen(false)} action={deleteUser}>
+                <h2>Delete user?</h2>
+            </ConfirmationDialog>
             {isEditing ? (
             <form className="card" onSubmit={handleSubmit}>
                 <h2>Edit User</h2>

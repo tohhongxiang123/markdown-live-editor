@@ -1,14 +1,14 @@
 import React from 'react'
 import styles from './Dialog.module.scss'
 
-export default function ConfirmationDialog({open, handleClose, action, title}) {
+export default function ConfirmationDialog({open, handleClose, action, children}) {
     return open ?
         <div className={styles.dialog} onClick={handleClose}>
             <div className={styles.dialogContent}>
-                <h2>{title}</h2>
-                <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                    <button onClick={action}>Yes</button>
-                    <button className="button-primary" onClick={handleClose}>No</button>
+                {children}
+                <div style={{display: 'flex', justifyContent: 'space-between', marginTop: '1em'}}>
+                    <button className="button-primary" onClick={action}>Yes</button>
+                    <button onClick={handleClose}>No</button>
                 </div>
             </div>
         </div> : null

@@ -57,8 +57,9 @@ export default function Document({_id, pageid}) {
 
     return (
         <div className={styles.main}>
-            <ConfirmationDialog open={isDialogOpen} handleClose={() => setIsDialogOpen(false)} action={deletePost} title={"Delete post?"} />
-
+            <ConfirmationDialog open={isDialogOpen} handleClose={() => setIsDialogOpen(false)} action={deletePost}>
+                <h2>Delete post?</h2>
+            </ConfirmationDialog>
             {error ? <ErrorText>{'What'}</ErrorText> : null}
             {isLoading ? <p>Loading...</p> : document ? (
                 <>

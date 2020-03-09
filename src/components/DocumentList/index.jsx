@@ -60,7 +60,10 @@ export default function DocumentList({page, documents, activeId}) {
     
     return (
         <>
-            <ConfirmationDialog open={isDialogOpen} handleClose={() => setIsDialogOpen(false)} action={deletePage} title="Delete Page?" />
+            <ConfirmationDialog open={isDialogOpen} handleClose={() => setIsDialogOpen(false)} action={deletePage}>
+                <h2>Delete {page.title}?</h2>
+                <small>This will delete the page along with all its documents</small>
+            </ConfirmationDialog>
             <nav className={styles.documentListContainer}>
                 <header className={styles.navHeader}>
                     <p><strong>{page.title}</strong></p>

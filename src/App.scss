@@ -156,6 +156,16 @@ button:disabled {
     }
 }
 
+.button-danger {
+    color: #000;
+    background-color: #ff9800;
+    border-color: #f57c00;
+
+    &:hover {
+        background-color: #ff9800;
+    }
+}
+
 input {
     margin: 0.4em 0 1.5em 0;
     display: block;
